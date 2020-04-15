@@ -9,7 +9,7 @@ import Navigation from "./components/Header"
 import Home from "./pages/Home";
 import PriceHistory from "./pages/PriceHistory";
 import Quote from "./pages/Quote";
-import Stocks from "./pages/Stocks";
+import Stocks, { ConsumerDiscretionary, ConsumerStaples } from "./pages/Stocks";
 
 export default function App() {
   return (
@@ -32,6 +32,14 @@ export default function App() {
 
           <Route exact path="/stocks">
             <Stocks />
+          </Route>
+
+          <Route exact path="/stocks/consumerdiscretionary">
+            <ConsumerDiscretionary />
+          </Route>
+
+          <Route exact path="/stocks/consumerstaples">
+            <ConsumerStaples />
           </Route>
         </Switch>
       </div>

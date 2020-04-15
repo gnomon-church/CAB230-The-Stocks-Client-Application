@@ -13,7 +13,21 @@ import {
   Form,
   Input,
   Button,
+  ButtonGroup,
 } from "reactstrap";
+
+// let url = "http://131.181.190.87:3000/stocks/symbols?";
+let url;
+
+function ConsumerDiscretionary() {
+  url =
+    "http://131.181.190.87:3000/stocks/symbols?industry=Consumer%20Discretionary";
+  return <Stocks />;
+}
+
+function ConsumerStaples() {
+  return <Stocks />;
+}
 
 class Stocks extends Component {
   // Setup the table data
@@ -39,20 +53,8 @@ class Stocks extends Component {
     };
   }
 
-
-  selectHandler(event) {
-    let value = event.target.value
-
-    if (value === 1) {
-      let url =
-        "http://131.181.190.87:3000/stocks/symbols?industry=Consumer%20Discretionary";
-    }
-  }
-
-
   // Fetch stocks from API and populate table row data
   componentDidMount() {
-    let url = "http://131.181.190.87:3000/stocks/symbols?"
     fetch(url)
       .then((result) => result.json())
       .then((rowData) => this.setState({ rowData }));
@@ -64,31 +66,32 @@ class Stocks extends Component {
         <Container>
           <Row>
             <Form inline>
-              <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                <Label for="industrySelect" className="mr-sm-2">
-                  Filter by Industry
-                </Label>
-                <Input
-                  type="select"
-                  name="select"
-                  id="industrySelect"
-                  onChange={this.selectHandler.bind(this)}
-                >
-                  <option value="0">All</option>
-                  <option value="1">Consumer Discretionary</option>
-                  <option>Consumer Staples</option>
-                  <option>Energy</option>
-                  <option>Financials</option>
-                  <option>Health Care</option>
-                  <option>Industrials</option>
-                  <option>Information Technology</option>
-                  <option>Materials</option>
-                  <option>Real Estate</option>
-                  <option>Telecommunication Services</option>
-                  <option>Utilities</option>
-                </Input>
-              </FormGroup>
-              <Button>Filter</Button>
+              <ButtonGroup vertical>
+                <Row>
+                  <ButtonGroup>
+                    <Button href="/stocks">All</Button>
+                    <Button href="/stocks/consumerdiscretionary">
+                      Consumer Discretionary
+                    </Button>
+                    <Button href="/stocks/consumerstaples">
+                      Consumer Staples
+                    </Button>
+                    <Button>Energy</Button>
+                    <Button>Financials</Button>
+                    <Button>Health Care</Button>
+                  </ButtonGroup>
+                </Row>
+                <Row>
+                  <ButtonGroup>
+                    <Button>Industrials</Button>
+                    <Button>Information Technology</Button>
+                    <Button>Materials</Button>
+                    <Button>Real Estate</Button>
+                    <Button>Telecommunication Services</Button>
+                    <Button>Utilities</Button>
+                  </ButtonGroup>
+                </Row>
+              </ButtonGroup>
             </Form>
           </Row>
 
@@ -116,3 +119,4 @@ class Stocks extends Component {
 }
 
 export default Stocks;
+export { ConsumerDiscretionary, ConsumerStaples };
