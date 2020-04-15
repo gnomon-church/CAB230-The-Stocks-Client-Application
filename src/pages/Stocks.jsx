@@ -39,14 +39,24 @@ class Stocks extends Component {
     };
   }
 
+
+  selectHandler(event) {
+    let value = event.target.value
+
+    if (value === 1) {
+      let url =
+        "http://131.181.190.87:3000/stocks/symbols?industry=Consumer%20Discretionary";
+    }
+  }
+
+
   // Fetch stocks from API and populate table row data
   componentDidMount() {
-    const url = "http://131.181.190.87:3000/stocks/symbols";
+    let url = "http://131.181.190.87:3000/stocks/symbols?"
     fetch(url)
       .then((result) => result.json())
       .then((rowData) => this.setState({ rowData }));
   }
-
 
   render() {
     return (
@@ -58,19 +68,24 @@ class Stocks extends Component {
                 <Label for="industrySelect" className="mr-sm-2">
                   Filter by Industry
                 </Label>
-                <Input type="select" name="select" id="industrySelect">
-                  <option >All</option>
-                  <option >Consumer Discretionary</option>
-                  <option >Consumer Staples</option>
-                  <option >Energy</option>
-                  <option >Financials</option>
-                  <option >Health Care</option>
-                  <option >Industrials</option>
-                  <option >Information Technology</option>
-                  <option >Materials</option>
-                  <option >Real Estate</option>
-                  <option >Telecommunication Services</option>
-                  <option >Utilities</option>
+                <Input
+                  type="select"
+                  name="select"
+                  id="industrySelect"
+                  onChange={this.selectHandler.bind(this)}
+                >
+                  <option value="0">All</option>
+                  <option value="1">Consumer Discretionary</option>
+                  <option>Consumer Staples</option>
+                  <option>Energy</option>
+                  <option>Financials</option>
+                  <option>Health Care</option>
+                  <option>Industrials</option>
+                  <option>Information Technology</option>
+                  <option>Materials</option>
+                  <option>Real Estate</option>
+                  <option>Telecommunication Services</option>
+                  <option>Utilities</option>
                 </Input>
               </FormGroup>
               <Button>Filter</Button>
