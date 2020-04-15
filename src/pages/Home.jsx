@@ -1,26 +1,27 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import "../App.css"
+import { Container } from "reactstrap";
 
 export default function Home() {
   return (
     <main>
-      <Hero />
+      <HomeContent />
     </main>
   );
 }
 
-// hero content
-const Hero = () => (
-  <section className="hero">
-    {/* content for the hero */}
-    <div className="hero__content">
-      <h1 className="hero__title">Minty Yard</h1>
-      <p className="hero__subtitle">A fine dining experience</p>
-
-      <Link to="/menu">Menu</Link>
-      <Link to="/book">Book</Link>
-    </div>
-  </section>
+// Home content
+const HomeContent = () => (
+  <Container>
+      <div className="home_content">
+        <p>
+          Welcome to the Stock Analyst portal. Click on Stocks to see the
+          available companies, Quote to get the latest price information by stock
+          symbol, or choose Price History to sample from the most recent one
+          hundred days of information for any particular stock.
+        </p>
+      </div>
+  </Container>
 );
+
+
 

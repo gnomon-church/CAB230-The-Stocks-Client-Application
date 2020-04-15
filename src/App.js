@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 
 // Components
-import Header from "./components/Header";
+import Navigation from "./components/Header"
 
 // Pages
 import Home from "./pages/Home";
@@ -15,8 +15,7 @@ export default function App() {
   return (
     <Router>
       <div className="App">
-        <Header />
-        {/* the content */}
+        <Navigation />
 
         <Switch>
           <Route exact path="/">
@@ -34,8 +33,6 @@ export default function App() {
           <Route exact path="/stocks">
             <Stocks />
           </Route>
-
-          
         </Switch>
       </div>
     </Router>

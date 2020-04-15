@@ -1,17 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
+import {
+  Collapse,
+  Navbar,
+  NavbarToggler,
+  NavbarBrand,
+  Nav,
+  NavItem,
+  NavLink,
+  UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
+  DropdownItem,
+} from "reactstrap";
 
-import Nav from "./Nav";
+// navigation links
+export default function Navigation() {
+  const [isOpen, setIsOpen] = useState(false);
 
-// the header
-export default function Header() {
+  const toggle = () => setIsOpen(!isOpen);
+
   return (
-    <header>
-      {/* icon */}
-      <div id="icon">
-        <img src="img/icon.png" alt="Icon" />
-      </div>
+    <div>
+      <Navbar color="dark" dark expand="md">
+        <NavbarBrand href="/">Stock Prices</NavbarBrand>
+        <NavbarToggler onClick={toggle} />
+        <Collapse isOpen={isOpen} navbar>
+          <Nav className="ml-auto" navbar>
+            <NavItem>
+              <NavLink href="/">Home</NavLink>
+            </NavItem>
 
-      <Nav />
-    </header>
+            <NavItem>
+              <NavLink href="/stocks">Stocks</NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink href="/quote">Quote</NavLink>
+            </NavItem>
+
+            <NavItem>
+              <NavLink href="/pricehistory">Price History</NavLink>
+            </NavItem>
+
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                Account
+              </DropdownToggle>
+              <DropdownMenu right>
+                <DropdownItem>Login</DropdownItem>
+                <DropdownItem>Register</DropdownItem>
+              </DropdownMenu>
+            </UncontrolledDropdown>
+
+          </Nav>
+        </Collapse>
+      </Navbar>
+    </div>
   );
 }

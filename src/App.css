@@ -53,36 +53,11 @@ body {
   font-family: 'Fira Sans', Arial, Helvetica, sans-serif;
 }
 
-header {
-  background: #2E8B57;
-  color: #FFFFFF;
-  padding: 10px 30px;
-}
-
-nav ul li {
-  display: inline-block;
-}
-
 nav {
-  width: 50%;
-  display: inline-block;
-  text-align: right;
+  background-color: blue;
+  color: blue;
 }
 
-nav ul {
-  list-style: none;
-  margin: 0;
-}
-
-nav ul li a {
-  color: #FFFFFF;
-  text-decoration: none;
-  display: block;
-  padding: 10px, 15px;
-  border-radius: 3px;
-  transition: 0.3s ease all;
-}
-
-na ul li a:hover {
-  background: #444444;
+.home_content {
+  padding-top: 0px;;
 }
