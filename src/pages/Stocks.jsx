@@ -7,7 +7,7 @@ import "ag-grid-community/dist/styles/ag-theme-material.css";
 
 import { Container, Row } from "reactstrap";
 
-let url = "http://131.181.190.87:3000/stocks/symbols?";
+const url = "http://131.181.190.87:3000/stocks/symbols?";
 
 class Stocks extends Component {
   // Setup the table data
@@ -19,16 +19,10 @@ class Stocks extends Component {
         {
           headerName: "Name",
           field: "name",
-          filter: "agTextColumnFilter",
-          filterParams: { defaultOption: "contains" },
-          suppressAndOrCondition: true,
         },
         {
           headerName: "Symbol",
           field: "symbol",
-          filter: "agTextColumnFilter",
-          filterParams: { defaultOption: "contains" },
-          suppressAndOrCondition: true,
         },
         {
           headerName: "Industry",

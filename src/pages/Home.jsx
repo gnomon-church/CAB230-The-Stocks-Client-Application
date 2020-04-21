@@ -12,7 +12,7 @@ export default function Home() {
 // Home content
 const HomeContent = () => (
   <Container>
-      <div className="home_content">
+      <div className="page_content">
         <p>
           Welcome to the Stock Analyst portal. Click on Stocks to see the
           available companies, Quote to get the latest price information by stock
