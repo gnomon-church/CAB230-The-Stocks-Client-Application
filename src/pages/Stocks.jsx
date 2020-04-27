@@ -29,17 +29,14 @@ class Stocks extends Component {
         {
           headerName: "Name",
           field: "name",
-          sortable: true,
         },
         {
           headerName: "Symbol",
           field: "symbol",
-          sortable: true,
         },
         {
           headerName: "Industry",
           field: "industry",
-          sortable: true,
         },
       ],
       rowData: [
@@ -65,23 +62,17 @@ class Stocks extends Component {
     params.api.sizeColumnsToFit();
   };
 
-  // Fetch stocks from API and populate table row data
-  componentDidMount() {
-    fetch(all_url)
-      .then((result) => result.json())
-      .then((rowData) => this.setState({ rowData }));
-  }
-
+  // Fetch data from URL provided as parameter an set it to the ag-grid
   setValues = (url) => {
-    let rowNode = this.gridApi.getRowNode("row");
     fetch(url)
       .then((result) => result.json())
-      .then((out) => {
-        rowNode.setDataValue("symbol", out.symbol);
-        rowNode.setDataValue("name", out.name);
-        rowNode.setDataValue("industry", out.industry);
-      });
+      .then((rowData) => this.setState({ rowData }));
   };
+
+  // Initially, can the setValues function with the url to display all data
+  componentDidMount() {
+    this.setValues(all_url)
+  }
 
   render() {
     return (
@@ -98,18 +89,19 @@ class Stocks extends Component {
                     / /g,
                     "%20"
                   );
+
                   let url = industry_url + url_suffix;
-                  console.log(url)
+                  // console.log(url);
                   this.setValues(url);
                 }}
               >
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   <Label for="industry" className="mr-sm-2">
-                    Stock Symbol
+                    Indsutry
                   </Label>
                   <Input type="text" name="industry" id="industry" />
                 </FormGroup>
-                <Button>Search</Button>
+                <Button>Filter</Button>
               </Form>
             </Col>
             <Col></Col>
