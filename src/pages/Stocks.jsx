@@ -19,6 +19,7 @@ import {
 const all_url = "http://131.181.190.87:3000/stocks/symbols?";
 const industry_url = "http://131.181.190.87:3000/stocks/symbols?industry=";
 
+
 class Stocks extends Component {
   // Setup the table data
   constructor(props) {
@@ -39,17 +40,7 @@ class Stocks extends Component {
           field: "industry",
         },
       ],
-      rowData: [
-        {
-          id: "row",
-          symbol: "",
-          name: "",
-          industry: "",
-        },
-      ],
-      getRowNodeId: function (data) {
-        return data.id;
-      },
+      rowData: [],
     };
   }
 
@@ -58,9 +49,18 @@ class Stocks extends Component {
     this.gridColumnApi = params.columnApi;
   };
 
+
   onFirstDataRendered = (params) => {
     params.api.sizeColumnsToFit();
   };
+
+
+  onRowClicked = () => {
+    console.log("row clicked")
+    let row = this.gridApi.getDisplayedRowAtIndex(0);
+    let cellValue = this.gridApi.getValue("symbol", row.node);
+    console.log(cellValue)
+  }
 
   // Fetch data from URL provided as parameter an set it to the ag-grid
   setValues = (url) => {
@@ -123,6 +123,7 @@ class Stocks extends Component {
                 getRowNodeId={this.state.getRowNodeId}
                 onGridReady={this.onGridReady}
                 onFirstDataRendered={this.onFirstDataRendered.bind(this)}
+                onRowClicked={this.onRowClicked.bind(this)}
               ></AgGridReact>
             </div>
           </Row>
