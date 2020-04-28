@@ -9,16 +9,16 @@ import {
   Container,
   Row,
   Form,
-  FormGroup,
   Label,
   Input,
   Button,
   Col,
+  InputGroup,
+  InputGroupAddon,
 } from "reactstrap";
 
 const all_url = "http://131.181.190.87:3000/stocks/symbols?";
 const industry_url = "http://131.181.190.87:3000/stocks/symbols?industry=";
-
 
 class Stocks extends Component {
   // Setup the table data
@@ -49,18 +49,16 @@ class Stocks extends Component {
     this.gridColumnApi = params.columnApi;
   };
 
-
   onFirstDataRendered = (params) => {
     params.api.sizeColumnsToFit();
   };
 
-
   onRowClicked = () => {
-    console.log("row clicked")
-    let row = this.gridApi.getDisplayedRowAtIndex(0);
-    let cellValue = this.gridApi.getValue("symbol", row.node);
-    console.log(cellValue)
-  }
+    console.log("row clicked");
+    let rowNode = this.gridApi.getRowNode("test");
+    let cellValue = this.gridApi.getValue("symbol", rowNode);
+    console.log(cellValue);
+  };
 
   // Fetch data from URL provided as parameter an set it to the ag-grid
   setValues = (url) => {
@@ -71,38 +69,53 @@ class Stocks extends Component {
 
   // Initially, can the setValues function with the url to display all data
   componentDidMount() {
-    this.setValues(all_url)
+    this.setValues(all_url);
   }
 
+  // Render the page
   render() {
     return (
       <div className="page_content">
         <Container>
           <Row>
             <Col></Col>
+            <Col><Label for="industry">Filter by industry:</Label></Col>
+            <Col></Col>
+          </Row>
+          <Row>
+            <Col></Col>
             <Col xs="auto">
-              <Form
-                inline
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  let url_suffix = event.target.elements.industry.value.replace(
-                    / /g,
-                    "%20"
-                  );
+              <InputGroup>
+                <Form
+                  inline
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    this.setValues(all_url)
+                  }}
+                >
+                  <InputGroupAddon addonType="prepend">
+                    <Button color="secondary">Clear Filter</Button>
+                  </InputGroupAddon>
+                </Form>
+                <Form
+                  inline
+                  onSubmit={(event) => {
+                    event.preventDefault();
+                    let url_suffix = event.target.elements.industry.value.replace(
+                      / /g,
+                      "%20"
+                    );
 
-                  let url = industry_url + url_suffix;
-                  // console.log(url);
-                  this.setValues(url);
-                }}
-              >
-                <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                  <Label for="industry" className="mr-sm-2">
-                    Indsutry
-                  </Label>
+                    let url = industry_url + url_suffix;
+                    this.setValues(url);
+                  }}
+                >
                   <Input type="text" name="industry" id="industry" />
-                </FormGroup>
-                <Button>Filter</Button>
-              </Form>
+                  <InputGroupAddon addonType="append">
+                    <Button color="secondary">Apply Filter</Button>
+                  </InputGroupAddon>
+                </Form>
+              </InputGroup>
             </Col>
             <Col></Col>
           </Row>
