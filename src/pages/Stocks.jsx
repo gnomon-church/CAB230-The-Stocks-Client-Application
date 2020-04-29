@@ -16,7 +16,9 @@ import {
   InputGroup,
   InputGroupAddon,
 } from "reactstrap";
+import { useHistory, Redirect } from "react-router-dom";
 
+const base_url = "http://131.181.190.87:3000/stocks/";
 const all_url = "http://131.181.190.87:3000/stocks/symbols?";
 const industry_url = "http://131.181.190.87:3000/stocks/symbols?industry=";
 
@@ -40,6 +42,7 @@ class Stocks extends Component {
           field: "industry",
         },
       ],
+      rowSelection: "single",
       rowData: [],
     };
   }
@@ -49,15 +52,19 @@ class Stocks extends Component {
     this.gridColumnApi = params.columnApi;
   };
 
-  onFirstDataRendered = (params) => {
-    params.api.sizeColumnsToFit();
+  onFirstDataRendered = () => {
+    this.gridApi.sizeColumnsToFit();
   };
 
-  onRowClicked = () => {
-    console.log("row clicked");
-    let rowNode = this.gridApi.getRowNode("test");
-    let cellValue = this.gridApi.getValue("symbol", rowNode);
-    console.log(cellValue);
+  // Handle 
+  onSelectionChanged = () => {
+    let selectedRow = this.gridApi.getSelectedRows();
+    console.log(selectedRow[0].symbol);
+    let url = base_url + selectedRow[0].symbol;
+    console.log(url);
+    return (
+      <Redirect to="/AAL" />
+    );
   };
 
   // Fetch data from URL provided as parameter an set it to the ag-grid
@@ -79,7 +86,9 @@ class Stocks extends Component {
         <Container>
           <Row>
             <Col></Col>
-            <Col><Label for="industry">Filter by industry:</Label></Col>
+            <Col>
+              <Label for="industry">Filter by industry:</Label>
+            </Col>
             <Col></Col>
           </Row>
           <Row>
@@ -90,7 +99,7 @@ class Stocks extends Component {
                   inline
                   onSubmit={(event) => {
                     event.preventDefault();
-                    this.setValues(all_url)
+                    this.setValues(all_url);
                   }}
                 >
                   <InputGroupAddon addonType="prepend">
@@ -136,7 +145,8 @@ class Stocks extends Component {
                 getRowNodeId={this.state.getRowNodeId}
                 onGridReady={this.onGridReady}
                 onFirstDataRendered={this.onFirstDataRendered.bind(this)}
-                onRowClicked={this.onRowClicked.bind(this)}
+                onSelectionChanged={this.onSelectionChanged.bind(this)}
+                rowSelection={this.state.rowSelection}
               ></AgGridReact>
             </div>
           </Row>

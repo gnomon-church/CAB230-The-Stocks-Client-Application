@@ -11,6 +11,14 @@ import PriceHistory from "./pages/PriceHistory";
 import Quote from "./pages/Quote";
 import Stocks from "./pages/Stocks";
 
+function symbolPasser(props) {
+  console.log(props.match.params.stock_symbol);
+
+  return(
+    <PriceHistory stock_symbol={props.match.params.stock_symbol} />
+  )
+}
+
 export default function App() {
   return (
     <Router>
@@ -30,10 +38,11 @@ export default function App() {
             <Quote />
           </Route>
 
+          <Route path="/stocks/:stock_symbol" component={symbolPasser} />
+
           <Route exact path="/stocks">
             <Stocks />
           </Route>
-
         </Switch>
       </div>
     </Router>

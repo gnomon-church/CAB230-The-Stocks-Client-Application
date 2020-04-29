@@ -120,11 +120,11 @@ class Quote extends Component {
               >
                 <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                   <Label for="stockSymbol" className="mr-sm-2">
-                    Indsutry
+                    Stock Symbol
                   </Label>
                   <Input type="text" name="stockSymbol" id="stockSymbol" />
                 </FormGroup>
-                <Button>Filter</Button>
+                <Button>Search</Button>
               </Form>
             </Col>
             <Col></Col>
