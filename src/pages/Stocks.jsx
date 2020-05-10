@@ -19,7 +19,6 @@ import {
 
 import { useHistory } from "react-router-dom";
 
-const base_url = "http://131.181.190.87:3000/stocks/";
 const all_url = "http://131.181.190.87:3000/stocks/symbols?";
 const industry_url = "http://131.181.190.87:3000/stocks/symbols?industry=";
 

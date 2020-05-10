@@ -31,8 +31,6 @@ export default function PriceHistory(props) {
   const [rowData, setRowData] = useState([]);
   const [gridApi, setGridApi] = useState(null);
 
-  let history = useHistory();
-
   const columnDefs = [
     {
       headerName: "Date",
@@ -80,7 +78,6 @@ export default function PriceHistory(props) {
     params.api.sizeColumnsToFit();
   };
 
-
   // useEffect(() => {
   //   let rowNode = gridApi.getRowNode("row");
   //   let url = base_url + props.stock_symbol;
@@ -95,7 +92,6 @@ export default function PriceHistory(props) {
   //       rowNode.setDataValue("volumes", stock.volumes);
   //     });
   // });
-
 
   // useEffect(() => {
   //   let url = base_url + props.stock_symbol;
@@ -116,12 +112,51 @@ export default function PriceHistory(props) {
   //     .then((stocks) => setRowData(stocks));
   // });
 
-
   useEffect(() => {
     let url = base_url + props.stock_symbol;
-    let stock_file = fetch(url);
-    console.log(JSON.stringify(stock_file));
-  })
+    console.log(url);
+    fetch(url)
+      .then((result) => result.json)
+      .then((stock) => {
+        console.log(stock);
+      });
+
+    // .then(function (stock) {
+    //   console.log(stock);
+    //   return {
+    //     date: stock.timestamp,
+    //     open: stock.open,
+    //     close: stock.close,
+    //     low: stock.low,
+    //     high: stock.high,
+    //     volumes: stock.volumes,
+    //   };
+    // });
+  });
+
+  // useEffect(() => {
+  //   let url = base_url + props.stock_symbol;
+  //   console.log(url);
+  //   fetch(url)
+  //     .then((result) => result.json)
+  //     .then(function (stock) {
+  //       console.log(stock);
+  //       return {
+  //         date: stock.timestamp,
+  //         open: stock.open,
+  //         close: stock.close,
+  //         low: stock.low,
+  //         high: stock.high,
+  //         volumes: stock.volumes,
+  //       };
+  //     })
+  // });
+
+  // useEffect(() => {
+  //   let url = base_url + props.stock_symbol;
+  //   let stock_file = fetch(url);
+  //   console.log(JSON.stringify(stock_file));
+  // })
 
   // Render the page
   return (
