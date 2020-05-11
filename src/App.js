@@ -8,7 +8,6 @@ import Navigation from "./components/Header"
 // Pages
 import Home from "./pages/Home";
 import PriceHistory from "./pages/PriceHistory";
-import Quote from "./pages/Quote";
 import Stocks from "./pages/Stocks";
 
 function symbolPasser(props) {
@@ -28,14 +27,6 @@ export default function App() {
         <Switch>
           <Route exact path="/">
             <Home />
-          </Route>
-
-          <Route exact path="/pricehistory">
-            <PriceHistory />
-          </Route>
-
-          <Route exact path="/quote">
-            <Quote />
           </Route>
 
           <Route path="/stocks/:stock_symbol" component={symbolPasser} />

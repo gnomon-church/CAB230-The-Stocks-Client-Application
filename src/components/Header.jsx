@@ -34,14 +34,6 @@ export default function Navigation() {
               <NavLink href="/stocks">Stocks</NavLink>
             </NavItem>
 
-            <NavItem>
-              <NavLink href="/quote">Quote</NavLink>
-            </NavItem>
-
-            <NavItem>
-              <NavLink href="/pricehistory">Price History</NavLink>
-            </NavItem>
-
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 Account

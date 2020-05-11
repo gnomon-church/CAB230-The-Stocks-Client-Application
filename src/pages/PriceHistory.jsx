@@ -7,28 +7,14 @@ import "ag-grid-community/dist/styles/ag-theme-material.css";
 
 import { Container, Row } from "reactstrap";
 
-import { useHistory } from "react-router-dom";
-
 const base_url = "http://131.181.190.87:3000/stocks/";
 
-// let date = new Date(out.timestamp);
-
-// let year = date.getFullYear();
-// let month = date.getMonth() + 1;
-// let day = date.getDate();
-
-// if (day < 10) {
-//   day = "0" + day;
-// }
-// if (month < 10) {
-//   month = "0" + month;
-// }
 
 // rowNode.setDataValue("timestamp", year + "/" + month + "/" + day);
 
 export default function PriceHistory(props) {
   // Setup the table data
-  const [rowData, setRowData] = useState([]);
+  const [rowData, setRowData] = useState();
   const [gridApi, setGridApi] = useState(null);
 
   const columnDefs = [
@@ -58,17 +44,6 @@ export default function PriceHistory(props) {
     },
   ];
 
-  // let rowData = [
-  //   {
-  //     id: "row",
-  //     open: "",
-  //     high: "",
-  //     low: "",
-  //     close: "",
-  //     volumes: "",
-  //   },
-  // ];
-
   function getRowNodeId(data) {
     return data.id;
   }
@@ -78,85 +53,43 @@ export default function PriceHistory(props) {
     params.api.sizeColumnsToFit();
   };
 
-  // useEffect(() => {
-  //   let rowNode = gridApi.getRowNode("row");
-  //   let url = base_url + props.stock_symbol;
-  //   fetch(url)
-  //     .then((result) => result.json())
-  //     .then((stock) => {
-  //       rowNode.setDataValue("date", stock.timestamp);
-  //       rowNode.setDataValue("open", stock.open);
-  //       rowNode.setDataValue("high", stock.high);
-  //       rowNode.setDataValue("low", stock.low);
-  //       rowNode.setDataValue("close", stock.close);
-  //       rowNode.setDataValue("volumes", stock.volumes);
-  //     });
-  // });
+  function dateFormatter(timestamp) {
+    let date = new Date(timestamp);
 
-  // useEffect(() => {
-  //   let url = base_url + props.stock_symbol;
-  //   fetch(url)
-  //     .then((result) => result.json)
-  //     .then(data =>
-  //       data.map((stock) => {
-  //         return {
-  //             date: stock.timestamp,
-  //             open: stock.open,
-  //             close: stock.close,
-  //             low: stock.low,
-  //             high: stock.high,
-  //             volumes: stock.volumes,
-  //           };
-  //       })
-  //     )
-  //     .then((stocks) => setRowData(stocks));
-  // });
+    let year = date.getFullYear();
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    if (day < 10) {
+      day = "0" + day;
+    }
+    if (month < 10) {
+      month = "0" + month;
+    }
+
+    return year + "-" + month + "-" + day;
+  }
 
   useEffect(() => {
     let url = base_url + props.stock_symbol;
-    console.log(url);
     fetch(url)
-      .then((result) => result.json)
+      .then((result) => result.json())
       .then((stock) => {
-        console.log(stock);
+        return [{
+            date: dateFormatter(stock.timestamp),
+            open: stock.open,
+            close: stock.close,
+            low: stock.low,
+            high: stock.high,
+            volumes: stock.volumes,
+        }];
+      })
+      // .then(console.log(rowData))
+      .then(stocks => setRowData(stocks))
+      .catch(function (error) {
+        console.log(error);
       });
-
-    // .then(function (stock) {
-    //   console.log(stock);
-    //   return {
-    //     date: stock.timestamp,
-    //     open: stock.open,
-    //     close: stock.close,
-    //     low: stock.low,
-    //     high: stock.high,
-    //     volumes: stock.volumes,
-    //   };
-    // });
   });
-
-  // useEffect(() => {
-  //   let url = base_url + props.stock_symbol;
-  //   console.log(url);
-  //   fetch(url)
-  //     .then((result) => result.json)
-  //     .then(function (stock) {
-  //       console.log(stock);
-  //       return {
-  //         date: stock.timestamp,
-  //         open: stock.open,
-  //         close: stock.close,
-  //         low: stock.low,
-  //         high: stock.high,
-  //         volumes: stock.volumes,
-  //       };
-  //     })
-  // });
-
-  // useEffect(() => {
-  //   let url = base_url + props.stock_symbol;
-  //   let stock_file = fetch(url);
-  //   console.log(JSON.stringify(stock_file));
-  // })
 
   // Render the page
   return (
