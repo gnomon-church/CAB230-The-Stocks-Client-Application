@@ -10,8 +10,6 @@ import { Container, Row } from "reactstrap";
 const base_url = "http://131.181.190.87:3000/stocks/";
 
 
-// rowNode.setDataValue("timestamp", year + "/" + month + "/" + day);
-
 export default function PriceHistory(props) {
   // Setup the table data
   const [rowData, setRowData] = useState();
@@ -43,10 +41,6 @@ export default function PriceHistory(props) {
       field: "volumes",
     },
   ];
-
-  function getRowNodeId(data) {
-    return data.id;
-  }
 
   const onGridReady = (params) => {
     setGridApi(params.api);
@@ -84,7 +78,6 @@ export default function PriceHistory(props) {
             volumes: stock.volumes,
         }];
       })
-      // .then(console.log(rowData))
       .then(stocks => setRowData(stocks))
       .catch(function (error) {
         console.log(error);
@@ -110,7 +103,6 @@ export default function PriceHistory(props) {
               rowData={rowData}
               animateRows={true}
               onGridReady={onGridReady}
-              getRowNodeId={getRowNodeId}
             ></AgGridReact>
           </div>
         </Row>

@@ -9,10 +9,10 @@ import Navigation from "./components/Header"
 import Home from "./pages/Home";
 import PriceHistory from "./pages/PriceHistory";
 import Stocks from "./pages/Stocks";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 function symbolPasser(props) {
-  console.log(props.match.params.stock_symbol);
-
   return(
     <PriceHistory stock_symbol={props.match.params.stock_symbol} />
   )
@@ -34,6 +34,15 @@ export default function App() {
           <Route exact path="/stocks">
             <Stocks />
           </Route>
+
+          <Route exact path="/login">
+            <Login />
+          </Route>
+
+          <Route exact path="/register">
+            <Register />
+          </Route>
+
         </Switch>
       </div>
     </Router>

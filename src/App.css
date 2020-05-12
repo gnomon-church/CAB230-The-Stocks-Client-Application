@@ -22,3 +22,15 @@ nav {
 .page_content {
   padding-top: 30px;
 }
+
+.user_detail_content {
+  width: 40%;
+}
+
+.submit-button {
+  width: 100%;
+}
+
+.user_detail_text {
+  text-align: center;
+}

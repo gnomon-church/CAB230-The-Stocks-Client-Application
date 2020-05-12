@@ -19,8 +19,7 @@ import {
 
 import { useHistory } from "react-router-dom";
 
-const all_url = "http://131.181.190.87:3000/stocks/symbols?";
-const industry_url = "http://131.181.190.87:3000/stocks/symbols?industry=";
+const API_URL = "http://131.181.190.87:3000";
 
 export default function Stocks() {
   const [rowData, setRowData] = useState([]);
@@ -52,7 +51,7 @@ export default function Stocks() {
   // https://stackoverflow.com/questions/51859358/how-to-read-json-file-with-fetch-in-javascript
 
   // Fetch data from URL provided as parameter an set it to the ag-grid
-  function setValues(url) {
+  function setValues(url, industry) {
     fetch(url)
       .then((result) => result.json())
       .then((data) =>
@@ -64,7 +63,10 @@ export default function Stocks() {
           };
         })
       )
-      .then((stocks) => setRowData(stocks));
+      .then((stocks) => setRowData(stocks))
+    .catch(function (error) {
+      alert("Industry " + industry + " not found!")
+    });
   }
 
   // Handle the cell rows being clicked
@@ -75,7 +77,7 @@ export default function Stocks() {
 
   // Initially, call the setValues function with the base url to display all data
   useEffect(() => {
-    setValues(all_url);
+    setValues(`${API_URL}/stocks/symbols?`, null);
   }, []);
 
   // Render the page
@@ -83,46 +85,36 @@ export default function Stocks() {
     <div className="page_content">
       <Container>
         <Row>
-          <Col></Col>
           <Col>
             <Label for="industry">Filter by industry:</Label>
           </Col>
-          <Col></Col>
-        </Row>
-        <Row>
-          <Col></Col>
           <Col xs="auto">
-            <InputGroup>
-              <Form
-                inline
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  setValues(all_url);
-                }}
-              >
-                <InputGroupAddon addonType="prepend">
-                  <Button color="secondary">Clear Filter</Button>
-                </InputGroupAddon>
-              </Form>
-              <Form
-                inline
-                onSubmit={(event) => {
-                  event.preventDefault();
+            <Form
+              inline
+              onSubmit={(event) => {
+                event.preventDefault();
+
+                if (event.target.elements.industry.value === "") {
+                  let url = `${API_URL}/stocks/symbols?`;
+                  setValues(url, null);
+                } else {
                   let url_suffix = event.target.elements.industry.value.replace(
                     / /g,
                     "%20"
                   );
 
-                  let url = industry_url + url_suffix;
-                  setValues(url);
-                }}
-              >
+                  let url = `${API_URL}/stocks/symbols?industry=` + url_suffix;
+                  setValues(url, event.target.elements.industry.value);
+                }
+              }}
+            >
+              <InputGroup>
                 <Input type="text" name="industry" id="industry" />
                 <InputGroupAddon addonType="append">
                   <Button color="secondary">Apply Filter</Button>
                 </InputGroupAddon>
-              </Form>
-            </InputGroup>
+              </InputGroup>
+            </Form>
           </Col>
           <Col></Col>
         </Row>
@@ -140,12 +132,8 @@ export default function Stocks() {
               columnDefs={columnDefs}
               rowData={rowData}
               animateRows={true}
-              // getRowNodeId={getRowNodeId}
               onGridReady={onGridReady}
               onRowClicked={onRowClicked}
-              // onFirstDataRendered={onFirstDataRendered.bind(this)}
-              // onSelectionChanged={onSelectionChanged.bind(this)}
-              // rowSelection={rowSelection}
             ></AgGridReact>
           </div>
         </Row>

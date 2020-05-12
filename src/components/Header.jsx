@@ -22,7 +22,7 @@ export default function Navigation() {
   return (
     <div>
       <Navbar color="dark" dark expand="md">
-        <NavbarBrand href="/">Stock Prices</NavbarBrand>
+        <NavbarBrand href="/">Super Stocks</NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="ml-auto" navbar>
@@ -39,8 +39,8 @@ export default function Navigation() {
                 Account
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>Login</DropdownItem>
-                <DropdownItem>Register</DropdownItem>
+                <DropdownItem href="/login">Login</DropdownItem>
+                <DropdownItem href="/register">Register</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
 
