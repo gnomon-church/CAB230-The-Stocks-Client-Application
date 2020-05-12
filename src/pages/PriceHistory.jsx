@@ -5,15 +5,21 @@ import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-material.css";
 
-import { Container, Row } from "reactstrap";
+import { Container, Row, Form, Button } from "reactstrap";
 
-const base_url = "http://131.181.190.87:3000/stocks/";
-
+const API_URL = "http://131.181.190.87:3000";
+const token = localStorage.getItem("token");
+const headers = {
+  accept: "application/json",
+  "Content-Type": "application/json",
+  Authorization: `Bearer ${token}`,
+};
 
 export default function PriceHistory(props) {
   // Setup the table data
   const [rowData, setRowData] = useState();
   const [gridApi, setGridApi] = useState(null);
+
 
   const columnDefs = [
     {
@@ -64,31 +70,112 @@ export default function PriceHistory(props) {
     return year + "-" + month + "-" + day;
   }
 
-  useEffect(() => {
-    let url = base_url + props.stock_symbol;
+  function setValues(url) {
+    if (token !== null) {
+      fetch(url, { headers })
+        .then((result) => result.json())
+        .then((data) =>
+          data.map((stock) => {
+            return {
+              date: dateFormatter(stock.timestamp),
+              open: stock.open,
+              close: stock.close,
+              low: stock.low,
+              high: stock.high,
+              volumes: stock.volumes,
+            };
+          })
+        )
+        .then((stocks) => setRowData(stocks))
+        .catch(function (error) {
+          console.log(error);
+        });
+    } else {
+      alert("You must be logged in to perform this action!");
+    }
+
+    // fetch(url, { headers })
+    //   .then((result) => result.json())
+    //   .then((stock) => {
+    //     return [
+    //       {
+    //         date: dateFormatter(stock.timestamp),
+    //         open: stock.open,
+    //         close: stock.close,
+    //         low: stock.low,
+    //         high: stock.high,
+    //         volumes: stock.volumes,
+    //       },
+    //     ];
+    //   })
+    //   .then((stocks) => setRowData(stocks))
+    //   .catch(function (error) {
+    //     console.log(error);
+    //   });
+  }
+
+  function initialSetValues() {
+    let url = `${API_URL}/stocks/${props.stock_symbol}`;
+
     fetch(url)
       .then((result) => result.json())
       .then((stock) => {
-        return [{
+        return [
+          {
             date: dateFormatter(stock.timestamp),
             open: stock.open,
             close: stock.close,
             low: stock.low,
             high: stock.high,
             volumes: stock.volumes,
-        }];
+          },
+        ];
       })
-      .then(stocks => setRowData(stocks))
+      .then((stocks) => setRowData(stocks))
       .catch(function (error) {
         console.log(error);
       });
-  });
+  }
+
+  useEffect(() => {
+    initialSetValues();
+  }, []);
 
   // Render the page
   return (
     <div className="page_content">
       <Container>
-        <p>{props.stock_symbol}</p>
+        <Row>
+          <p>{props.stock_symbol}</p>
+        </Row>
+        
+
+        <Form
+          onSubmit={(event) => {
+            event.preventDefault();
+            let start_date = event.target.elements.first_date.value;
+            let end_date = event.target.elements.second_date.value;
+
+            let url_suffix =
+              "/stocks/authed/" +
+              props.stock_symbol +
+              "?from=" +
+              start_date +
+              "&to=" +
+              end_date;
+            console.log(API_URL + url_suffix);
+            setValues(API_URL + url_suffix);
+          }}
+        >
+          <Row>
+            <label htmlFor="first_date">From: </label>
+            <input type="date" id="first_date" />
+            <label htmlFor="second_date">to: </label>
+            <input type="date" id="second_date" />
+            <Button>Apply</Button>
+          </Row>
+        </Form>
+
 
         <Row>
           <div

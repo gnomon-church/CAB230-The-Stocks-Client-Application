@@ -64,9 +64,9 @@ export default function Stocks() {
         })
       )
       .then((stocks) => setRowData(stocks))
-    .catch(function (error) {
-      alert("Industry " + industry + " not found!")
-    });
+      .catch(function (error) {
+        alert("Industry " + industry + " not found!");
+      });
   }
 
   // Handle the cell rows being clicked

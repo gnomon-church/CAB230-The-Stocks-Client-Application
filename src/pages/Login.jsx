@@ -28,7 +28,8 @@ export default function Login() {
     })
       .then((result) => result.json())
       .then((result) => {
-        localStorage.setItem("token", result.token)
+        console.log(result.token);
+        localStorage.setItem("token", result.token);
       });
   }
 
@@ -45,7 +46,8 @@ export default function Login() {
               onSubmit={(event) => {
                 event.preventDefault();
                 let email = event.target.elements.userLogin.value;
-                let password = event.target.elements.userPassword.value;
+                let password = event.target.elements.userPassword.value;                                            
+
                 loginUser(email, password);
               }}
             >
