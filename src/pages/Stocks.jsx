@@ -47,9 +47,6 @@ export default function Stocks() {
     params.api.sizeColumnsToFit();
   };
 
-  // USE ME TO DEAL WITH ERRORS:
-  // https://stackoverflow.com/questions/51859358/how-to-read-json-file-with-fetch-in-javascript
-
   // Fetch data from URL provided as parameter an set it to the ag-grid
   function setValues(url, industry) {
     fetch(url)
@@ -65,7 +62,9 @@ export default function Stocks() {
       )
       .then((stocks) => setRowData(stocks))
       .catch(function (error) {
-        alert("Industry " + industry + " not found!");
+        if (industry !== null) {
+          alert("Industry " + industry + " not found!");
+        }
       });
   }
 

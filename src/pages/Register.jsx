@@ -11,9 +11,14 @@ import {
   Button,
 } from "reactstrap";
 
+import { useHistory } from "react-router-dom";
+
 const API_URL = "http://131.181.190.87:3000";
 
 export default function Register() {
+  let history = useHistory();
+
+  // Handle user registration
   function registerUser(email, password) {
     const url = `${API_URL}/user/register`;
 
@@ -27,7 +32,13 @@ export default function Register() {
     })
       .then((result) => result.json())
       .then((result) => {
-        console.log(result);
+        if (result.error === true) {
+          alert(result.message);
+        } else {
+          localStorage.setItem("token", result.token);
+          history.push("/stocks");
+          window.location.reload();
+        }
       });
   }
 
@@ -65,7 +76,7 @@ export default function Register() {
                   placeholder="Password..."
                 />
               </FormGroup>
-              <Button className="submit-button">Login</Button>
+              <Button className="submit-button">Register</Button>
             </Form>
           </Row>
           <Row>

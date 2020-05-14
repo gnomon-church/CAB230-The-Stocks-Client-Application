@@ -53,6 +53,7 @@ export default function PriceHistory(props) {
     params.api.sizeColumnsToFit();
   };
 
+  // Format date into more readable format
   function dateFormatter(timestamp) {
     let date = new Date(timestamp);
 
@@ -70,12 +71,16 @@ export default function PriceHistory(props) {
     return year + "-" + month + "-" + day;
   }
 
+  // Set table data
   function setValues(url) {
     if (token !== null) {
       fetch(url, { headers })
         .then((result) => result.json())
         .then((data) =>
           data.map((stock) => {
+            if (data.error === true) {
+              alert(data.message)
+            }
             return {
               date: dateFormatter(stock.timestamp),
               open: stock.open,
@@ -88,32 +93,14 @@ export default function PriceHistory(props) {
         )
         .then((stocks) => setRowData(stocks))
         .catch(function (error) {
-          console.log(error);
+          alert("Invalid date range!")
         });
     } else {
       alert("You must be logged in to perform this action!");
     }
-
-    // fetch(url, { headers })
-    //   .then((result) => result.json())
-    //   .then((stock) => {
-    //     return [
-    //       {
-    //         date: dateFormatter(stock.timestamp),
-    //         open: stock.open,
-    //         close: stock.close,
-    //         low: stock.low,
-    //         high: stock.high,
-    //         volumes: stock.volumes,
-    //       },
-    //     ];
-    //   })
-    //   .then((stocks) => setRowData(stocks))
-    //   .catch(function (error) {
-    //     console.log(error);
-    //   });
   }
 
+  // Set initial table data
   function initialSetValues() {
     let url = `${API_URL}/stocks/${props.stock_symbol}`;
 
@@ -137,18 +124,36 @@ export default function PriceHistory(props) {
       });
   }
 
+  // Call initialSetValues on page render
   useEffect(() => {
     initialSetValues();
   }, []);
+
+
+  let date_selector
+
+  if (token !== null) {
+    date_selector = (
+      <Row>
+        <label htmlFor="first_date">From: </label>
+        <input type="date" id="first_date" />
+        <label htmlFor="second_date">to: </label>
+        <input type="date" id="second_date" />
+        <Button>Apply</Button>
+      </Row>
+    );
+  } else {
+    date_selector = 
+      <p>Please login to view more dates</p>
+  }
 
   // Render the page
   return (
     <div className="page_content">
       <Container>
         <Row>
-          <p>{props.stock_symbol}</p>
+          <h2>{props.stock_symbol}</h2>
         </Row>
-        
 
         <Form
           onSubmit={(event) => {
@@ -167,15 +172,8 @@ export default function PriceHistory(props) {
             setValues(API_URL + url_suffix);
           }}
         >
-          <Row>
-            <label htmlFor="first_date">From: </label>
-            <input type="date" id="first_date" />
-            <label htmlFor="second_date">to: </label>
-            <input type="date" id="second_date" />
-            <Button>Apply</Button>
-          </Row>
+          {date_selector}
         </Form>
-
 
         <Row>
           <div
@@ -190,6 +188,8 @@ export default function PriceHistory(props) {
               rowData={rowData}
               animateRows={true}
               onGridReady={onGridReady}
+              pagination={true}
+              paginationPageSize={15}
             ></AgGridReact>
           </div>
         </Row>

@@ -3,7 +3,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./App.css";
 
 // Components
-import Navigation from "./components/Header"
+import NavigationIN from "./components/HeaderIN"
+import NavigationOUT from "./components/HeaderOUT"
 
 // Pages
 import Home from "./pages/Home";
@@ -11,6 +12,9 @@ import PriceHistory from "./pages/PriceHistory";
 import Stocks from "./pages/Stocks";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Logout from "./pages/Logout";
+
+const token = localStorage.getItem("token");
 
 function symbolPasser(props) {
   return(
@@ -19,10 +23,18 @@ function symbolPasser(props) {
 }
 
 export default function App() {
+
+  let navigation;
+  if (token !== null) {
+    navigation = <NavigationIN />;
+  } else {
+    navigation = <NavigationOUT />;
+  }
+
   return (
     <Router>
       <div className="App">
-        <Navigation />
+        {navigation}
 
         <Switch>
           <Route exact path="/">
@@ -43,6 +55,9 @@ export default function App() {
             <Register />
           </Route>
 
+          <Route exact path="/logout">
+            <Logout />
+          </Route>
         </Switch>
       </div>
     </Router>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Collapse,
   Navbar,
@@ -7,10 +7,7 @@ import {
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
+  Row,
 } from "reactstrap";
 
 // navigation links
@@ -34,16 +31,9 @@ export default function Navigation() {
               <NavLink href="/stocks">Stocks</NavLink>
             </NavItem>
 
-            <UncontrolledDropdown nav inNavbar>
-              <DropdownToggle nav caret>
-                Account
-              </DropdownToggle>
-              <DropdownMenu right>
-                <DropdownItem href="/login">Login</DropdownItem>
-                <DropdownItem href="/register">Register</DropdownItem>
-              </DropdownMenu>
-            </UncontrolledDropdown>
-
+            <NavItem>
+              <NavLink href="/logout">Logout</NavLink>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>

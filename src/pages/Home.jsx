@@ -14,10 +14,11 @@ const HomeContent = () => (
   <Container>
       <div className="page_content">
         <p>
-          Welcome to the Stock Analyst portal. Click on Stocks to see the
-          available companies, Quote to get the latest price information by stock
-          symbol, or choose Price History to sample from the most recent one
-          hundred days of information for any particular stock.
+          Welcome to Super Stocks, the best portal for stock analytics on the market! 
+          To view stocks please click the stocks button in the top right, then you may
+          select a specific stock to see more information.
+          <br></br><br></br>
+          Please consider registering an account to access more functionality!
         </p>
       </div>
   </Container>

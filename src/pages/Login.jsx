@@ -12,9 +12,14 @@ import {
   Button,
 } from "reactstrap";
 
-export default function Login() {
-  const API_URL = "http://131.181.190.87:3000";
+import { useHistory } from "react-router-dom";
 
+const API_URL = "http://131.181.190.87:3000";
+
+export default function Login() {
+  let history = useHistory();
+
+  // Handle user login
   function loginUser(email, password) {
     const url = `${API_URL}/user/login`;
 
@@ -28,8 +33,13 @@ export default function Login() {
     })
       .then((result) => result.json())
       .then((result) => {
-        console.log(result.token);
-        localStorage.setItem("token", result.token);
+        if (result.error === true) {
+          alert(result.message)
+        } else {
+          localStorage.setItem("token", result.token);
+          history.push("/stocks");
+          window.location.reload();
+        }
       });
   }
 
